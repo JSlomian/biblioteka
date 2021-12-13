@@ -8,4 +8,4 @@ profile:
 
 admin:
   path: /admin
-  controller: App\Controller\MainController::admin
+  controller: App\Controller\Admin\DashboardController::index
