@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ReservationsRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ReservationsRepository", repositoryClass=ReservationsRepository::class)
  */
 class Reservations
 {
@@ -26,7 +26,8 @@ class Reservations
     private $bname;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="reservations")
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(name="uemail", referencedColumnName="email")
      */
     private $uemail;
 
