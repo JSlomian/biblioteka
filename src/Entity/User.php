@@ -39,7 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Reservations::class, mappedBy="uemail")
-     * @ORM\JoinColumn(name="email", referencedColumnName="uemail")
      */
     private $reservations;
 
