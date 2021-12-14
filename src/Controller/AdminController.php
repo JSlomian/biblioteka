@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Books;
 use App\Form\BooklistType;
+use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -20,43 +23,53 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/addbook', name: 'addbook')]
-    public function addbook(Request $request): Response
+    public function addbook(Request $request, ManagerRegistry $em): Response
     {
         $books = new Books();
         $form = $this->createForm(BooklistType::class, $books);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($books);
-            $em->flush();
+            $em->getManager()->persist($books);
+            $em->getManager()->flush();
             $this->addFlash('msg','Dodano książkę!');
         }
 
-        return $this->render('admin/addbook.html.twig', [
+        return $this->render('admin/bookedit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/admin/updatebook', name: 'updatebook')]
-    public function updatebook(): Response
+    #[Route('/admin/updatebook/{id}', name: 'updatebook')]
+    public function updatebook(Request $request, ManagerRegistry $em, $id): Response
     {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
+        $books = $em->getRepository(Books::class)->find($id);
+        $form = $this->createForm(BooklistType::class, $books);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em->getManager()->persist($books);
+            $em->getManager()->flush();
+            $this->addFlash('msg','Edytowano książkę!');
+        }
+
+        return $this->render('admin/bookedit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
-    #[Route('/admin/deletebook', name: 'deletebook')]
-    public function deletebook(): Response
+    #[Route('/admin/deletebook/{id}', name: 'deletebook')]
+    public function deletebook(ManagerRegistry $em, $id): Response
     {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
+        $books = $em->getRepository(Books::class)->find($id);
+        $em->getManager()->remove($books);
+        $em->getManager()->flush();
+        $this->addFlash('msg','Usunięto książkę!');
+        return $this->redirectToRoute('booklist');
     }
     #[Route('/admin/booklist', name: 'booklist')]
-    public function booklist(): Response
+    public function booklist(ManagerRegistry $em): Response
     {
-        $data = $this->getDoctrine()->getRepository();
+        $data = $em->getRepository(Books::class)->findAll();
         return $this->render('admin/booklist.html.twig', [
-            'controller_name' => 'AdminController',
+            'list' => $data,
         ]);
     }
 

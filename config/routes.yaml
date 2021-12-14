@@ -8,4 +8,21 @@ profile:
 
 admin:
   path: /admin
-  controller: App\Controller\Admin\DashboardController::index
+  controller: App\Controller\AdminController::index
+
+addbook:
+  path: /admin/addbook
+  controller: App\Controller\AdminController::addbook
+
+booklist:
+  path: /admin/booklist
+  controller: App\Controller\AdminController::booklist
+
+updatebook:
+  path: /admin/updatebook/{id}
+  controller: App\Controller\AdminController::updatebook
+
+deletebook:
+  path: /admin/deletebook/{id}
+  controller: App\Controller\AdminController::deletebook
+

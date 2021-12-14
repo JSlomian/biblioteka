@@ -3,6 +3,7 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Biblioteka</a>
@@ -12,32 +13,26 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Strona Główna</a>
+                        <a class="nav-link" href="{{ path('main') }}">Strona Główna</a>
                     </li>
-                    {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin">Panel Administratora</a>
+                            <a class="nav-link active" href="{{ path('admin') }}">Panel Administratora</a>
                         </li>
-                    {% elseif is_granted('ROLE_USER') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile">Twoje Książki</a>
+                            <a class="nav-link" href="{{ path('profile') }}">Twoje Książki</a>
                         </li>
-                    {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/login">Zaloguj</a>
+                            <a class="nav-link" href="{{ path('booklist') }}">Lista Książek</a>
                         </li>
-                    {% endif %}
-                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/logout">Wyloguj</a>
+                            <a class="nav-link" href="{{ path('addbook') }}">Dodaj Książkę</a>
                         </li>
-                    {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Wyloguj</a>
+                        </li>
                 </ul>
             </div>
         </div>
     </nav>
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    {% endif %}
 {% endblock %}

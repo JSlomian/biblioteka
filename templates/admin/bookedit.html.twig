@@ -38,7 +38,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <h3 class="mt-5 mb-5">Dodawanie książki</h3>
+            <h3 class="mt-5 mb-5">Dodaj/Edytuj książkę</h3>
             {% for message in app.flashes('msg') %}
                 <div class="alert alert-success">
                     {{ message }}
@@ -63,7 +63,7 @@
                 {{ form_widget(form.reservations,{'attr':{'class':'form-control'}}) }}
             </div>
             <div class="form-group">
-                <button class="btn btn-info mt-2 text-white">Dodaj</button>
+                <button class="btn btn-info mt-2 text-white">Potwierdź</button>
             </div>
                 {{ form_end(form) }}
             </div>

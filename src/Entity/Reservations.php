@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ReservationsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,11 +34,6 @@ class Reservations
      */
     private $taken;
 
-    public function __construct()
-    {
-        $this->uemail = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -58,26 +51,14 @@ class Reservations
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUemail(): Collection
+    public function getUemail(): ?User
     {
         return $this->uemail;
     }
 
-    public function addUemail(User $uemail): self
+    public function setUemail(User $uemail): self
     {
-        if (!$this->uemail->contains($uemail)) {
-            $this->uemail[] = $uemail;
-        }
-
-        return $this;
-    }
-
-    public function removeUemail(User $uemail): self
-    {
-        $this->uemail->removeElement($uemail);
+        $this->uemail = $uemail;
 
         return $this;
     }

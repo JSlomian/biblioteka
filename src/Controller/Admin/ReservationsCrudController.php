@@ -21,7 +21,7 @@ class ReservationsCrudController extends AbstractCrudController
     {
         return [
             AssociationField::new('bname'),
-            CollectionField::new('uemail'),
+            AssociationField::new('uemail'),
             DateField::new('taken')
         ];
     }
