@@ -3,20 +3,38 @@
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
-    <nav>
-        <ul>
-            <li><a href="/">Strona Główna</a></li>
-            {% if is_granted('ROLE_ADMIN') %}
-                <li><a href="/admin">Panel Administratora</a></li>
-            {% elseif is_granted('ROLE_USER') %}
-                <li><a href="/profile">Twoje Książki</a></li>
-            {% else %}
-                <li><a href="/login">Zaloguj</a></li>
-            {% endif %}
-            {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
-                <li><a href="/logout">Wyloguj</a></li>
-            {% endif %}
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Biblioteka</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/">Strona Główna</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Panel Administratora</a>
+                        </li>
+                    {% elseif is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/profile">Twoje Książki</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Zaloguj</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Wyloguj</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
     </nav>
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
@@ -29,7 +47,7 @@
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code><a href="{{ 'C:/main/biblioteka/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/main/biblioteka/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/main/biblioteka/templates/main/index.html.twiga'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
     </ul>
 </div>
 {% endblock %}

@@ -25,6 +25,12 @@ class AdminController extends AbstractController
         $books = new Books();
         $form = $this->createForm(BooklistType::class, $books);
         $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($books);
+            $em->flush();
+            $this->addFlash('msg','Dodano książkę!');
+        }
 
         return $this->render('admin/addbook.html.twig', [
             'form' => $form->createView(),
@@ -42,6 +48,14 @@ class AdminController extends AbstractController
     public function deletebook(): Response
     {
         return $this->render('admin/index.html.twig', [
+            'controller_name' => 'AdminController',
+        ]);
+    }
+    #[Route('/admin/booklist', name: 'booklist')]
+    public function booklist(): Response
+    {
+        $data = $this->getDoctrine()->getRepository();
+        return $this->render('admin/booklist.html.twig', [
             'controller_name' => 'AdminController',
         ]);
     }

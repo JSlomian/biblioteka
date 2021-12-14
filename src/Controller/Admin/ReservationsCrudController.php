@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Reservations;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -20,7 +21,7 @@ class ReservationsCrudController extends AbstractCrudController
     {
         return [
             AssociationField::new('bname'),
-            AssociationField::new('uemail'),
+            CollectionField::new('uemail'),
             DateField::new('taken')
         ];
     }
