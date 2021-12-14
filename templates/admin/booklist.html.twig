@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dodawanie Książki{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Biblioteka</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Strona Główna</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Panel Administratora</a>
+                        </li>
+                    {% elseif is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">Twoje Książki</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Zaloguj</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Wyloguj</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <h3 class="mt-5 mb-5">Dodawanie książki</h3>
+            {% for message in app.flashes('msg') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        <div class="col-md-6 offset-md-3">
+                {{ form_start(form) }}
+            <div class="form-group">
+                <label>Nazwa książki</label>
+                {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                <label>Autor</label>
+                {{ form_widget(form.Author,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                <label>Opis książki</label>
+                {{ form_widget(form.descri,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class="form-group" style="display: none">
+                <label>Rezerwacja</label>
+                {{ form_widget(form.reservations,{'attr':{'class':'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                <button class="btn btn-info mt-2 text-white">Dodaj</button>
+            </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
