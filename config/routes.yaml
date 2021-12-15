@@ -6,6 +6,10 @@ profile:
   path: /profile
   controller: App\Controller\MainController::profile
 
+books:
+  path: /books/{name?}
+  controller: App\Controller\MainController::books
+
 admin:
   path: /admin
   controller: App\Controller\AdminController::index

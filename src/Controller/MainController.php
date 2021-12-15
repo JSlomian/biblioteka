@@ -16,20 +16,28 @@ class MainController extends AbstractController
 {
 
 
-    #[Route('/{name?}', name: 'main')]
-    public function index(ManagerRegistry $em, ?Request $request, ?string $name): Response
+    #[Route('/', name: 'main')]
+    public function index(): Response
+    {
+        return $this->render('main/index.html.twig', [
+            'controller_name' => 'AdminController',
+        ]);
+    }
+
+    #[Route('/books/{?name}', name: 'books')]
+    public function books(ManagerRegistry $em, ?Request $request, ?string $name): Response
     {
         $data = $em->getRepository(Books::class)->findAll();
         $form = $this->createForm(TextType::class, $data);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $data = $em->getRepository(Books::class)->findBy(['name' => $name]);
-            return $this->render('main/index.html.twig', [
-            'list' => $data,
-            'form' => $form->createView(),
-        ]);
+            return $this->render('main/books.html.twig', [
+                'list' => $data,
+                'form' => $form->createView(),
+            ]);
         }
-        return $this->render('main/index.html.twig', [
+        return $this->render('main/books.html.twig', [
             'list' => $data,
             'form' => $form->createView(),
         ]);
