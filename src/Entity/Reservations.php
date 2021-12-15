@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\ReservationsRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
- * @ORM\Entity(repositoryClass=ReservationsRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ReservationsRepository", repositoryClass=ReservationsRepository::class)
  */
 class Reservations
 {
@@ -18,7 +21,7 @@ class Reservations
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Books::class, inversedBy="reservations", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Books::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $bname;
@@ -76,5 +79,12 @@ class Reservations
     }
     public function __toString(): string {
         return $this->uemail;
+    }
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addConstraint(new UniqueEntity([
+            'entityClass' => Reservations::class,
+            'fields' => ['bname'],
+        ]));
     }
 }

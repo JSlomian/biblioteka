@@ -26,3 +26,18 @@ deletebook:
   path: /admin/deletebook/{id}
   controller: App\Controller\AdminController::deletebook
 
+addres:
+  path: /admin/addres
+  controller: App\Controller\AdminController::addres
+
+reservations:
+  path: /admin/reservations
+  controller: App\Controller\AdminController::reservations
+
+updateres:
+  path: /admin/updateres/{id}
+  controller: App\Controller\AdminController::updateres
+
+deleteres:
+  path: /admin/deleteres/{id}
+  controller: App\Controller\AdminController::deleteres

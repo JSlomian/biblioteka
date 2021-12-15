@@ -15,13 +15,13 @@
                         <a class="nav-link" href="{{ path('main') }}">Strona Główna</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('admin') }}">Panel Administratora</a>
+                        <a class="nav-link active" href="{{ path('admin') }}">Panel Administratora</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('reservations') }}">Lista Wypożyczonych</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ path('booklist') }}">Lista Książek</a>
+                        <a class="nav-link" href="{{ path('booklist') }}">Lista Książek</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Wyloguj</a>
@@ -37,13 +37,13 @@
         </div>
     {% endfor %}
     <h3 class="mt-5 mb-5">Lista książek</h3>
-    <a class="btn btn-info text-black-50 mb-2" href="{{ path('addbook') }}">Dodaj Książkę</a>
+    <a class="btn btn-info text-black-50 mb-2" href="{{ path('addres') }}">Dodaj wypożyczenie</a>
     <table class="table">
         <thead>
         <tr>
             <th scope="col">Tytuł</th>
             <th scope="col">Autor</th>
-            <th scope="col">Wypożyczona</th>
+            <th scope="col">Zwróć książkę</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -51,11 +51,12 @@
         <tbody>
         {% for data in list %}
         <tr>
-            <th scope="row">{{ data.name }}</th>
-            <td>{{ data.author }}</td>
-            <td style="width: 20%">{% if data.reservations == not null %}<span class="btn btn-outline-info">{{ data.reservations }}</span>{% endif %}</td>
-            <td style="width: 10%"><a class="btn btn-outline-warning" href="{{ path('updatebook',{'id':data.id}) }}">Edytuj</a> </td>
-            <td style="width: 10%"><a class="btn btn-outline-danger" href="{{ path('deletebook',{'id':data.id}) }}">Usuń</a> </td>
+            <th scope="row"></th>
+            <td>{{ data.bname }}</td>
+            <td>{{ data.uemail }}</td>
+            <td style="width: 20%"><a class="btn btn-outline-info" href=""></a></td>
+            <td style="width: 10%"><a class="btn btn-outline-warning" href="{{ path('updateres',{'id':data.id}) }}">Edytuj</a> </td>
+            <td style="width: 10%"><a class="btn btn-outline-danger" href="{{ path('deleteres',{'id':data.id}) }}">Usuń</a> </td>
         </tr>
         {% endfor %}
         </tbody>

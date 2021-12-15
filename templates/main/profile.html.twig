@@ -36,18 +36,33 @@
             </div>
         </div>
     </nav>
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/main/biblioteka/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/main/biblioteka/templates/main/index.html.twiga'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {{ asd }}
+    <div class="container">
+        {% for message in app.flashes('msg') %}
+            <div class="alert alert-danger mt-5">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <h3 class="mt-5 mb-5">Lista książek</h3>
+        <a class="btn btn-info text-black-50 mb-2" href="{{ path('main') }}">Dodaj wypożyczenie</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Tytuł</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Zwróć książkę</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for data in list %}
+                <tr>
+                    <th scope="row"></th>
+                    <td>{{ data.bname }}</td>
+                    <td>{{ data.uemail }}</td>
+                    <td style="width: 20%"><a class="btn btn-outline-info" href=""></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

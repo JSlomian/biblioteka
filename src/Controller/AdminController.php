@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Books;
+use App\Entity\Reservations;
 use App\Form\BooklistType;
+use App\Form\ReservationsType;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,6 +57,7 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     #[Route('/admin/deletebook/{id}', name: 'deletebook')]
     public function deletebook(ManagerRegistry $em, $id): Response
     {
@@ -64,6 +67,7 @@ class AdminController extends AbstractController
         $this->addFlash('msg','Usunięto książkę!');
         return $this->redirectToRoute('booklist');
     }
+
     #[Route('/admin/booklist', name: 'booklist')]
     public function booklist(ManagerRegistry $em): Response
     {
@@ -72,12 +76,39 @@ class AdminController extends AbstractController
             'list' => $data,
         ]);
     }
+    #[Route('/admin/addres', name: 'addres')]
+    public function addres(Request $request, ManagerRegistry $em): Response
+    {
+        $res = new Reservations();
+        $form = $this->createForm(ReservationsType::class, $res);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em->getManager()->persist($res);
+            $em->getManager()->flush();
+            $this->addFlash('msg','Wypożyczono książkę!');
+        }
+
+        return $this->render('admin/resedit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
     #[Route('/reservations', name: 'reservations')]
-    public function reservations(): Response
+    public function reservations(ManagerRegistry $em): Response
     {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
+        $data = $em->getRepository(Reservations::class)->findAll();
+        return $this->render('admin/reservations.html.twig', [
+            'list' => $data,
         ]);
+    }
+
+    #[Route('/admin/deleteres/{id}', name: 'deleteres')]
+    public function deleteres(ManagerRegistry $em, $id): Response
+    {
+        $res = $em->getRepository(Reservations::class)->find($id);
+        $em->getManager()->remove($res);
+        $em->getManager()->flush();
+        $this->addFlash('msg','Zwrócono książkę!');
+        return $this->redirectToRoute('reservations');
     }
 }
