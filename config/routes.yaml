@@ -7,8 +7,16 @@ profile:
   controller: App\Controller\MainController::profile
 
 books:
-  path: /books/{name?}
+  path: /books/
   controller: App\Controller\MainController::books
+
+resb:
+  path: /profile/resb/
+  controller: App\Controller\MainController::resb
+
+delr:
+  path: /profile/delr/{id}
+  controller: App\Controller\MainController::delr
 
 admin:
   path: /admin

@@ -5,7 +5,7 @@
 {% block body %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Biblioteka</a>
+            <span class="navbar-brand">Biblioteka</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -16,20 +16,22 @@
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin">Panel Administratora</a>
+                            <a class="nav-link" href="{{ path('admin') }}">Panel Administratora</a>
                         </li>
-                    {% elseif is_granted('ROLE_USER') %}
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('books') }}">Dostępne Książki</a>
+                    </li>
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="/profile">Twoje Książki</a>
+                            <a class="nav-link active" href="{{ path('profile') }}">Twoje Książki</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Wyloguj</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/login">Zaloguj</a>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Wyloguj</a>
+                            <a class="nav-link" href="{{ path('app_login') }}">Zaloguj</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -43,22 +45,23 @@
             </div>
         {% endfor %}
         <h3 class="mt-5 mb-5">Lista książek</h3>
-        <a class="btn btn-info text-black-50 mb-2" href="{{ path('main') }}">Dodaj wypożyczenie</a>
+        <h3>{{ asd }}</h3>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">Tytuł</th>
-                <th scope="col">Autor</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
                 <th scope="col">Zwróć książkę</th>
             </tr>
             </thead>
             <tbody>
             {% for data in list %}
                 <tr>
-                    <th scope="row"></th>
-                    <td>{{ data.bname }}</td>
-                    <td>{{ data.uemail }}</td>
-                    <td style="width: 20%"><a class="btn btn-outline-info" href=""></a></td>
+                    <th scope="row">{{ data.bname }}</th>
+                    <td></td>
+                    <td></td>
+                    <<td style="width: 10%"><a class="btn btn-outline-danger" href="{{ path('delr',{'id':data.id}) }}">Zwrot</a> </td>
                 </tr>
             {% endfor %}
             </tbody>

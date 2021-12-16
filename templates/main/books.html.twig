@@ -5,32 +5,34 @@
 {% block body %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Biblioteka</a>
+            <span class="navbar-brand">Biblioteka</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Strona Główna</a>
+                        <a class="nav-link" aria-current="page" href="/">Strona Główna</a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">Panel Administratora</a>
-                    </li>
-                    {% elseif is_granted('ROLE_USER') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/profile">Twoje Książki</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Zaloguj</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin') }}">Panel Administratora</a>
+                        </li>
                     {% endif %}
-                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Wyloguj</a>
+                        <a class="nav-link active" href="{{ path('books') }}">Dostępne Książki</a>
                     </li>
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('profile') }}">Twoje Książki</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Wyloguj</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}">Zaloguj</a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
@@ -42,18 +44,12 @@
                 {{ message }}
             </div>
         {% endfor %}
-        <h3 class="mt-5 mb-5">Lista książek</h3>
-        {{ form_start(form) }}
-        <input type="search" />
-        {{ form_end(form) }}
-        <a class="btn btn-info text-black-50 mb-2" href="{{ path('addbook') }}">Dodaj Książkę</a>
+        <h3 class="mt-5 mb-5">Lista dostępnych książek</h3>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">Tytuł</th>
                 <th scope="col">Autor</th>
-                <th scope="col">Wypożyczona</th>
-                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -63,9 +59,7 @@
                 <tr>
                     <th scope="row">{{ data.name }}</th>
                     <td>{{ data.author }}</td>
-                    <td style="width: 20%">{% if data.reservations == not null %}<span class="btn btn-outline-info">{{ data.reservations }}</span>{% endif %}</td>
-                    <td style="width: 10%"><a class="btn btn-outline-warning" href="{{ path('updatebook',{'id':data.id}) }}">Edytuj</a> </td>
-                    <td style="width: 10%"><a class="btn btn-outline-danger" href="{{ path('deletebook',{'id':data.id}) }}">Usuń</a> </td>
+                    <td style="width: 15%">{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}<a class="btn btn-outline-info" href="{{ path('resb',{'id':data.id}) }}">Wypożycz Książkę</a>{% endif %}</td>
                 </tr>
                 {% endif %}
             {% endfor %}

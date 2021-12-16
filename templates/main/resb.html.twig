@@ -38,4 +38,40 @@
             </div>
         </div>
     </nav>
+    <div class="container">
+        <div class="row">
+            <h3 class="mt-5 mb-5">Dodaj/Edytuj książkę</h3>
+            {% for message in app.flashes('msg') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <div class="col-md-6 offset-md-3">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    <label>Nazwa książki</label>
+                    {{ form_widget(form.bname,{'attr':{'class':'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    <label>Użytkownik</label>
+                    <input type="email" value="{{ user }}" disabled class="form-control" />
+                    <span style="display: none">
+                    {{ form_widget(form.uemail,{'attr':{'class':'form-control'}}) }}
+                        </span>
+                </div>
+                <div class="form-group">
+                    <label>Data</label>
+                    {{ form_widget(form.taken,{'attr':{'class':'form-control'}}) }}
+                </div>
+                <div class="form-group" style="display: none">
+                    <label>Rezerwacja</label>
+
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-info mt-2 text-black-50">Potwierdź</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
